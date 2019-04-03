@@ -1,11 +1,3 @@
-//
-//  SearchTextField.swift
-//  SearchTextField
-//
-//  Created by Alejandro Pasccon on 4/20/16.
-//  Copyright © 2016 Alejandro Pasccon. All rights reserved.
-//
-
 import UIKit
 
 open class SearchTextField: UITextField {
@@ -34,7 +26,7 @@ open class SearchTextField: UITextField {
                 if let placeholderString = placeholder {
                     self.attributedPlaceholder = NSAttributedString(string: placeholderString, attributes: [NSAttributedStringKey.foregroundColor: placeholderColor])
                 }
-                
+                self.placeholderLabel?.textAlignment = .left
                 self.placeholderLabel?.textColor = placeholderColor
             }
         }
@@ -75,7 +67,7 @@ open class SearchTextField: UITextField {
     open var userStoppedTypingHandler: (() -> Void)?
     
     /// Set your custom set of attributes in order to highlight the string found in each item
-    open var highlightAttributes: [NSAttributedStringKey: AnyObject] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue):UIFont.boldSystemFont(ofSize: 10)]
+    open var highlightAttributes: [NSAttributedStringKey: AnyObject] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue):UIFont.boldSystemFont(ofSize: 15)]
     
     /// Start showing the default loading indicator, useful for searches that take some time.
     open func showLoadingIndicator() {
@@ -302,7 +294,7 @@ open class SearchTextField: UITextField {
             }
             
             tableView.layer.borderColor = theme.borderColor.cgColor
-            tableView.layer.cornerRadius = 2
+            tableView.layer.cornerRadius = 15
             tableView.separatorColor = theme.separatorColor
             tableView.backgroundColor = theme.bgColor
             
@@ -402,7 +394,7 @@ open class SearchTextField: UITextField {
     open func hideResultsList() {
         if let tableFrame:CGRect = tableView?.frame {
             let newFrame = CGRect(x: tableFrame.origin.x, y: tableFrame.origin.y, width: tableFrame.size.width, height: 0.0)
-            UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            UIView.animate(withDuration: 0.7, animations: { [weak self] in
                 self?.tableView?.frame = newFrame
             })
             
@@ -574,8 +566,10 @@ extension SearchTextField: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if itemSelectionHandler == nil {
+            self.textAlignment = .left
             self.text = filteredResults[(indexPath as NSIndexPath).row].title
         } else {
+            self.textAlignment = .left
             let index = indexPath.row
             itemSelectionHandler!(filteredResults, index)
         }
